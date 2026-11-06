@@ -1,0 +1,12 @@
+# Control de evidencias — completar después de ejecutar
+- [ ] MySQL: captura de tablas `users`, `movies`, `favorites` en `movie_ev03`.
+- [ ] Postman: registro 201; duplicado 409; validación 422.
+- [ ] Postman: login 200 con token; credenciales incorrectas 401.
+- [ ] Postman: POST película ADMIN 201, GET 200, PUT 200, DELETE 200 y GET posterior 404.
+- [ ] Postman: USER intenta POST película, recibe 403.
+- [ ] Postman: favoritos agregados/listados/eliminados.
+- [ ] Git: captura de `git log --oneline` y repositorio remoto.
+- [ ] Enlace al video de máximo tres minutos: ____________________
+- [ ] URL del repositorio: ____________________
+- [ ] Fecha de prueba: ____________________
+- [ ] Nombre del aprendiz: ____________________

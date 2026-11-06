@@ -1,0 +1,20 @@
+CREATE DATABASE IF NOT EXISTS movie_ev03 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE movie_ev03;
+CREATE TABLE IF NOT EXISTS users (
+ id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(120) NOT NULL, email VARCHAR(190) NOT NULL UNIQUE,
+ password_hash VARCHAR(255) NOT NULL, role ENUM('ADMIN','USUARIO') NOT NULL DEFAULT 'USUARIO',
+ active TINYINT(1) NOT NULL DEFAULT 1, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS movies (
+ id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(180) NOT NULL, director VARCHAR(160) NOT NULL,
+ release_year SMALLINT UNSIGNED NOT NULL, genre VARCHAR(100) NOT NULL,
+ synopsis TEXT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS favorites (
+ user_id INT NOT NULL, movie_id INT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY(user_id,movie_id), CONSTRAINT fk_fav_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+ CONSTRAINT fk_fav_movie FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
+);
+INSERT INTO movies (title,director,release_year,genre,synopsis)
+SELECT 'Avatar','James Cameron',2009,'Ciencia ficción','Película de ciencia ficción ambientada en Pandora'
+WHERE NOT EXISTS (SELECT 1 FROM movies WHERE title='Avatar' AND release_year=2009);

@@ -1,0 +1,434 @@
+{
+  "info": {
+    "name": "MOVIE EV03 PHP REST - Pruebas Postman",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Colección de ejemplos; para CRUD admin promover el usuario de práctica en MySQL y luego login"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "health"
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "registro",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Administrador Movie\", \"email\": \"admin.movie@example.com\", \"password\": \"ClaveSegura123!\"}"
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"admin.movie@example.com\", \"password\": \"ClaveSegura123!\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if(pm.response.code===200){pm.collectionVariables.set(\"token\",pm.response.json().token)}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "perfil",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/users/me",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "me"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "listar usuarios admin",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "desactivar usuario",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/users/2/status",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "2",
+            "status"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"active\": false}"
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "listar películas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/movies",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "movies"
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "película por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/movies/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "movies",
+            "1"
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "crear película admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/movies",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "movies"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"Interstellar\", \"director\": \"Christopher Nolan\", \"release_year\": 2014, \"genre\": \"Ciencia ficción\", \"synopsis\": \"Viaje espacial\"}"
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "actualizar película admin",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/movies/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "movies",
+            "1"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"Avatar\", \"director\": \"James Cameron\", \"release_year\": 2009, \"genre\": \"Ciencia ficción\", \"synopsis\": \"Pandora\"}"
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "eliminar película admin",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/movies/2",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "movies",
+            "2"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "mis favoritos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/favorites",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "favorites"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "agregar favorito",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/favorites",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "favorites"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"movie_id\": 1}"
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    },
+    {
+      "name": "eliminar favorito",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/favorites/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "favorites",
+            "1"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": []
+    }
+  ]
+}
